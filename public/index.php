@@ -16,6 +16,8 @@ $router = new Router();
  $router->addRoute('',['controller' => 'Home', 'action' =>'index']);
  $router->addRoute('posts',['controller'=>'Posts', 'action'=>'index']);
  $router->addRoute('posts/new',['controller'=>'Posts', 'action'=>'new']);
+  $router->addRoute('{controller}/{action}');
+   $router->addRoute('admin/{action}/{controller}']);
 
 // display the routing table
 // echo '<pre>';

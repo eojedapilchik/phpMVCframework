@@ -14,10 +14,19 @@ class Router
     /*
     Adds a route to the routing tables
         string  $route    route URL
-        array   $params   Parameters (controller, action, etc)
+        array   $params   Parameters (controller, action, etc)  is optional
     */
-    public function addRoute($route, $params)
+    public function addRoute($route, $params =[])
     {
+      // Convert the route to a regular expression , escape forward slash
+      $route= preg_replace('/\//','\\/',$route);
+
+      //Convert variables ex {controller}
+      $route = preg_replace('/\{([a-z]+)\}/', '(?P<\1>[a-z-]+)', $route);
+
+      // add strat and end delimiter, and case insesitive flag.
+      $route= '/^' . $route . '$/i';
+
       $this->routes[$route]=$params;
     }
 
@@ -47,22 +56,22 @@ class Router
     */
     public function match($url)
     {
-      $regex = "/^(?<controller>[a-z-]+)\/(?<action>[a-z-]+)$/";
+      //$regex = "/^(?<controller>[a-z-]+)\/(?<action>[a-z-]+)$/";
+      foreach($this->routes as $route => $params)
+        if (preg_match($route,$url,$matches)){
+          echo '</br><pre>';
+          var_dump ($matches);
+          echo '</pre>';
+          //$params = [];
 
-      if (preg_match($regex,$url,$matches)){
-        echo '</br><pre>';
-        var_dump ($matches);
-        echo '</pre>';
-        $params = [];
-
-        foreach ($matches as $key => $match){
-            if(is_string($key)){
-              $params[$key]= $match;
+          foreach ($matches as $key => $match){
+              if(is_string($key)){
+                $params[$key]= $match;
+              }
             }
-          }
 
-        $this->params=$params;
-        return true;
+          $this->params=$params;
+          return true;
       }
 
       return false;
