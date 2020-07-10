@@ -4,6 +4,8 @@
 * Router Class, routes to diferrent controllers and actions
 */
 
+namespace Core;
+
 class Router
 {
 
@@ -19,15 +21,18 @@ class Router
     public function addRoute($route, $params =[])
     {
       // Convert the route to a regular expression , escape forward slash
-      $route= preg_replace('/\//','\\/',$route);
+      $route = preg_replace('/\//', '\\/', $route);
 
       //Convert variables ex {controller}
       $route = preg_replace('/\{([a-z]+)\}/', '(?P<\1>[a-z-]+)', $route);
 
-      // add strat and end delimiter, and case insesitive flag.
-      $route= '/^' . $route . '$/i';
+      //Convert variables with custom regeg ex. {id:\d+}
+      $route = preg_replace('/\{([a-z]+):([^\}]+)\}/', '(?P<\1>\2)', $route);
+      // Add start and end delimiters, and case insensitive flag
+      $route = '/^' . $route . '$/i';
 
-      $this->routes[$route]=$params;
+      $this->routes[$route] = $params;
+
     }
 
     /*
@@ -59,9 +64,9 @@ class Router
       //$regex = "/^(?<controller>[a-z-]+)\/(?<action>[a-z-]+)$/";
       foreach($this->routes as $route => $params)
         if (preg_match($route,$url,$matches)){
-          echo '</br><pre>';
-          var_dump ($matches);
-          echo '</pre>';
+           // echo '</br><pre>';
+           // var_dump ($matches);
+           // echo '</pre>';
           //$params = [];
 
           foreach ($matches as $key => $match){
@@ -76,5 +81,58 @@ class Router
 
       return false;
     }
+
+    /*
+    Verifies de url against the router table and creates the controller object
+    calls the accion
+        string $url the url provide in the address bar
+
+    */
+    public function dispatch($url)
+    {
+      if ($this->match($url)){
+        //check if controller class exist and check if action method exist
+        $controller = $this->params['controller'];
+        $controller = $this->convertToStudlyCaps($controller);
+        $controller = "App\Controllers\\$controller";
+
+        if (class_exists($controller)){
+          $controller_object= new $controller();
+          $action =$this->params['action'];
+          $action = $this->convertToCamelCase($action);
+
+          if (is_callable([$controller_object,$action])){
+            $controller_object->$action();
+          }else{
+            echo "No action found";
+          }
+        }else{
+          echo "Controller class was not found";
+        }
+      }else{
+        echo "No route matched.";
+      }
+    }
+
+    /*
+    Converts a string to Studly Caps format: Capitalize first letter
+      string $text text to be formated
+    */
+    protected function convertToStudlyCaps($text)
+    {
+        return  preg_replace('/[\s-]+/','',ucwords($text));
+    }
+
+    /*
+    Converts a text to lowercase and second word Uppercase for methods/actions
+      string $text The string to be converted
+      return string
+
+    */
+    protected function convertToCamelCase($text)
+    {
+        return lcfirst($this->convertToStudlyCaps($text));
+    }
+
 }
 ?>
