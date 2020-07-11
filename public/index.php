@@ -31,6 +31,7 @@ $router = new Core\Router();
  //$router->addRoute('posts',['controller'=>'Posts', 'action'=>'index']);
  //$router->addRoute('posts/new',['controller'=>'Posts', 'action'=>'new']);
  $router->addRoute('{controller}/{action}');
+ $router->addRoute('admin/{controller}/{action}',['namespace'=>'Admin']); //when admin panel, namespace admin is added as parameter
  $router->addroute('{controller}/{id:\d+}/{action}');
  //$router->addroute('{controller}/{id:[a-z0-9-]+}/{action}'); // routes like controller/123eded-234/action
 
