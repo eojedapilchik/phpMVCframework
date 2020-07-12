@@ -4,12 +4,17 @@ Home Controllers
 */
 
 namespace App\Controllers;
+use \Core\View;
 
 class Home extends \Core\Controller
 {
 
   public function indexAction(){
-    echo "Hello from index - Home";
+    //echo "Hello from index - Home";
+    View::render('Home/index.php', [
+      'name'=> 'Alcides',
+      'colours' => ['purple','green','blue']
+    ]);
   }
 
   /*
@@ -18,7 +23,7 @@ class Home extends \Core\Controller
   */
   protected function before()
   {
-    echo "(before) ";
+    //echo "(before) ";
   }
 
   /*
@@ -27,7 +32,7 @@ class Home extends \Core\Controller
   */
   protected function after()
   {
-    echo " (after)";
+    //echo " (after)";
   }
 }
 
