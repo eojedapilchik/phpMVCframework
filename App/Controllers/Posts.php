@@ -5,7 +5,7 @@
 namespace App\Controllers;
 
 use \Core\View;
-use App\Models\Posts;
+use App\Models\Post;
 
 class Posts extends \Core\Controller
 {
@@ -13,14 +13,14 @@ class Posts extends \Core\Controller
 
     public function indexAction()
     {
-        	$post = Posts::getAll();
+        	$post = Post::getAll();
 
 
         // echo "Hello from Post controller - index action";
         // echo "<p> Query string parameters: <pre>".
         //   htmlspecialchars(print_r($_GET,true))."</pre></p>";
 
-        View::renderTemplate('Posts/index.html', ['posts' => $posts]);
+          View::renderTemplate('Posts/index.html', ['posts' => $post]);
     }
 
     public function addNewAction()

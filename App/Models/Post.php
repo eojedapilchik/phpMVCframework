@@ -18,8 +18,7 @@ Class Post
     $password ='password';
 
     try{
-      $db = new PDO("mysql:host=$host;dbname=$dbname;charset=utf8,
-      $username, $password");
+      $db = new PDO("mysql:host=$host;dbname=$dbname;charset=utf8",$username, $password);
 
       $stmt= $db->query('SELECT id, title, content FROM posts ORDER BY created_at');
 
