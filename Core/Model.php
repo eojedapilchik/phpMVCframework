@@ -1,5 +1,5 @@
 <?php
-namespace App\Models;
+namespace Core;
 use PDO;
 /*
 Model Base
@@ -7,7 +7,7 @@ Model Base
 
 abstract class Model
 {
-  static function getDB()
+  protected static function getDB()
   {
     static $db = null;
     if($db===null){
@@ -18,12 +18,11 @@ abstract class Model
 
       try{
         $db = new PDO("mysql:host=$host;dbname=$dbname;charset=utf8",$username, $password);
-        return $db;
-
       } catch (PDOException $e){
         echo $e->getMessage();
       }
     }
+    return $db;
   }
 }
  ?>
