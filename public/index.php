@@ -8,7 +8,7 @@
 
 // require '../App/Controllers/Posts.php';
 // require '../Core/Router.php';
-require_once dirname(__DIR__) . '\Vendor\twig\autoload.php';
+require_once dirname(__DIR__) . '\Vendor\autoload.php';
 /*
  Autoloader
  */
