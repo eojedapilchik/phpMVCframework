@@ -8,14 +8,16 @@
 
 // require '../App/Controllers/Posts.php';
 // require '../Core/Router.php';
-
+require_once dirname(__DIR__) . '\Vendor\twig\autoload.php';
 /*
  Autoloader
  */
  spl_autoload_register(function($class)
  {
+   //echo "<p> AUTOLOADER $class </p>";
    $root= dirname(__DIR__);  //gets the parent directory of this file
    $file= $root.'/'.str_replace('\\','/',$class).'.php';
+   //echo "<p> FILE $file </p>";
    if(is_readable($file)){
      require $file;
    }

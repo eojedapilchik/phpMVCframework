@@ -11,10 +11,15 @@ class Home extends \Core\Controller
 
   public function indexAction(){
     //echo "Hello from index - Home";
-    View::render('Home/index.php', [
-      'name'=> 'Alcides',
-      'colours' => ['purple','green','blue']
-    ]);
+    // View::render('Home/index.php', [
+    //   'name'=> 'Alcides',
+    //   'colours' => ['purple','green','blue']
+    // ]);
+
+     View::renderTemplate('Home/index.html', [
+       'name'=> 'Alcides',
+       'colours' => ['purple','green','blue']
+     ]);
   }
 
   /*
